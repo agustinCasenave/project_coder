@@ -22,28 +22,28 @@ export class ProductManager{
     }
 
 
-    async createProduct(title, description, code, price, status, stock, category, thumbnails ){
+    async createProduct(title, description, code, price, stock, category, thumbnails ){
         try {
             const productsFile = await this.getProducts();
-            if(title, description, price, thumbnails, code, stock){
-                if(!productsFile.some(product => product.code == code)){
-                    let product = {
-                        "id": this.#getNextId(),
-                        "title": title,
-                        "description":  description,
-                        "code":  code,
-                        "price":  price,
-                        "status": status,
-                        "stock":  stock,
-                        "category": category,
-                        "thumbnails":  thumbnails,
-                    }
-                    productsFile.push(product);
-                    await fs.promises.writeFile(this.path, JSON.stringify(productsFile));
-                    return product;
-                } else{
-                    return null;
+            if(!productsFile.some(product => product.code == code)){
+                let thumbnails1 = []
+                if (thumbnails){ 
+                    thumbnails1 =  thumbnails
                 }
+                let product = {
+                    "id": this.#getNextId(),
+                    "title": title,
+                    "description":  description,
+                    "code":  code,
+                    "price":  price,
+                    "status": true,
+                    "stock":  stock,
+                    "category": category,
+                    "thumbnails":  thumbnails1
+                }
+                productsFile.push(product);
+                await fs.promises.writeFile(this.path, JSON.stringify(productsFile));
+                return product;
             } else{
                 return null;
             }
@@ -72,9 +72,11 @@ export class ProductManager{
             const productsFile = await this.getProducts();
             if(productsFile.some(product_cb => product_cb.id === id)){
                 const index = productsFile.findIndex(product => product.id == id);
+                const existingProduct = productsFile[index]
                 productsFile[index] = {
-                    id: id,
+                    ...existingProduct,
                     ...product,
+                    id: id,
                 };
                 await fs.promises.writeFile(this.path, JSON.stringify(productsFile));
                 return 1

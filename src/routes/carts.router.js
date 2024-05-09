@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { CartManager } from "../manager/carts.manager.js"
+import { middleware_addProdCart } from "../middlewares/addProductToCart.middleware.js";
 
 const router = Router();
 const cartManager = new CartManager("./src/data/carts.json");
@@ -18,10 +19,10 @@ router.post('/', async (req,res) => {                     //Create Cart. Data on
 router.get('/:cid', async (req, res) => {                 //Get Products on cart CId.
     try {
         const { cid } = req.params
-        const cart = await cartManager.getCartById(cid)
-        if(!cart) res.status(404).json({msg: "Cart not found"})
+        const products = await cartManager.getCartById(cid)
+        if(!products) res.status(404).json({msg: "Cart not found"})
         else {
-            res.status(200).json(cart.products)
+            res.status(200).json(products)
         }
     } catch (error) {
         console.log(error);
@@ -29,7 +30,7 @@ router.get('/:cid', async (req, res) => {                 //Get Products on cart
     }
 })
 
-router.post('/:cid/product/:pid', async (req, res) => {  //Add Product PId to cart CId. 
+router.post('/:cid/product/:pid', middleware_addProdCart, async (req, res) => {  //Add Product PId to cart CId. 
     try {
         const { cid } = req.params
         const { pid } = req.params

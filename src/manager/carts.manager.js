@@ -1,5 +1,7 @@
 import fs from "fs";
 import { v4 as uuidv4 } from 'uuid';
+import { ProductManager } from "./products.manager.js";
+const productManager = new ProductManager("./src/data/products.json");
 
 export class CartManager {
     constructor(path){
@@ -20,8 +22,19 @@ export class CartManager {
     async getCartById(id){
         try {
             const cartsFile = await this.getCarts()
-            if(cartsFile.some(cart => cart.id == id)){
-                return cartsFile.find(cart => cart.id == id);
+            const cart = cartsFile.find(cart => cart.id == id)
+            if(cart){
+                console.log(cart);
+                let productsInCart = []
+                for (let i = 0; i < cart.products.length; i++) {
+                    let product = await productManager.getProductById(cart.products[i].id)
+                    product = {
+                        ...product,
+                        quantity: cart.products[i].quantity
+                    }
+                    productsInCart.push(product)
+                }
+                return productsInCart;
             } else {
                 return null
             }  
