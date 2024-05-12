@@ -1,5 +1,5 @@
 import { ProductManager } from "../manager/products.manager.js"
-const productManager = new ProductManager("./src/data/products.json");
+const productManager = new ProductManager("./src/db/products.json");
 
 const prod = async (req,res,next) => {
     const product = await productManager.getProductById(req.params.pid)

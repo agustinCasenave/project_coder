@@ -1,7 +1,7 @@
 import fs from "fs";
 import { v4 as uuidv4 } from 'uuid';
 import { ProductManager } from "./products.manager.js";
-const productManager = new ProductManager("./src/data/products.json");
+const productManager = new ProductManager("./src/db/products.json");
 
 export class CartManager {
     constructor(path){
@@ -24,17 +24,7 @@ export class CartManager {
             const cartsFile = await this.getCarts()
             const cart = cartsFile.find(cart => cart.id == id)
             if(cart){
-                console.log(cart);
-                let productsInCart = []
-                for (let i = 0; i < cart.products.length; i++) {
-                    let product = await productManager.getProductById(cart.products[i].id)
-                    product = {
-                        ...product,
-                        quantity: cart.products[i].quantity
-                    }
-                    productsInCart.push(product)
-                }
-                return productsInCart;
+                return cart;
             } else {
                 return null
             }  
@@ -65,12 +55,11 @@ export class CartManager {
 
     async addProductToCart(id, productId){
         try {
-                
             const cartsFile = await this.getCarts()
             const cart = cartsFile.find(cart => cart.id == id);
             console.log(cart.products);
             if (cart){
-                if(!cart.products.some(product => product.id == productId)){                                                   //If not product, add it
+                if(!cart.products.some(product => product.id == productId)){    //If not product, add it
                     cart.products.push({
                         id: productId,
                         quantity: 1
@@ -87,7 +76,7 @@ export class CartManager {
                 }
                 await fs.promises.writeFile(this.path, JSON.stringify(cartsFile));
                 return cart;
-            } else {
+            } else {                                                            //If not cart
                 return null;
             }
         } catch (error) {

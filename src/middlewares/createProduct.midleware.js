@@ -11,7 +11,7 @@ const prod = (req,res,next) => {
         console.log("next")
         next()
     } else {
-        res.status(400).json({ msg: "Product data can't be null" });
+        res.status(400).json({ msg: "Product db can't be null" });
     }
 }
 
