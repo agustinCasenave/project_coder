@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { ProductManager } from "../manager/products.manager.js"
+import {__dirname} from "../utils.js"
 import { middleware_createProd } from "../middlewares/createProduct.midleware.js";
 
-const productManager = new ProductManager("./src/db/products.json");
+const productManager = new ProductManager(`${__dirname}/db/products.json`);
 const router = Router();
 
 router.get('/', async (req, res) => {                 //Get ALL products

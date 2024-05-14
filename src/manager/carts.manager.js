@@ -1,7 +1,6 @@
 import fs from "fs";
 import { v4 as uuidv4 } from 'uuid';
-import { ProductManager } from "./products.manager.js";
-const productManager = new ProductManager("./src/db/products.json");
+import {__dirname} from "../utils.js"
 
 export class CartManager {
     constructor(path){

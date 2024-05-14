@@ -1,5 +1,6 @@
 import { ProductManager } from "../manager/products.manager.js"
-const productManager = new ProductManager("./src/db/products.json");
+import {__dirname} from "../utils.js"
+const productManager = new ProductManager(`${__dirname}/db/products.json`);
 
 const prod = async (req,res,next) => {
     const product = await productManager.getProductById(req.params.pid)
