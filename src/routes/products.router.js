@@ -2,6 +2,7 @@ import { Router } from "express";
 import { ProductManager } from "../manager/products.manager.js"
 import {__dirname} from "../utils.js"
 import { middleware_createProd } from "../middlewares/createProduct.midleware.js";
+import { middleware_updProd } from "../middlewares/updateProd.midleware.js";
 
 const productManager = new ProductManager(`${__dirname}/db/products.json`);
 const router = Router();
@@ -50,7 +51,7 @@ router.post('/', middleware_createProd,async (req, res) => {               //Cre
     }
 })
 
-router.put('/:pid', async (req, res) => {            //Update Product. Data on body. Id unchanged.
+router.put('/:pid', middleware_updProd, async (req, res) => {            //Update Product. Data on body. Id unchanged.
     try {
         const { pid } = req.params;
         const response = await productManager.updateProduct(pid, req.body);

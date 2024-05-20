@@ -8,10 +8,9 @@ const prod = (req,res,next) => {
     let stock = body.stock
     let category = body.category
     if(title && description && price && code && stock && category){
-        console.log("next")
         next()
     } else {
-        res.status(400).json({ msg: "Product db can't be null" });
+        res.status(400).json({ msg: "Product data can't be null" });
     }
 }
 
