@@ -3,12 +3,14 @@ import { ProductManager } from "../manager/products.manager.js"
 import {__dirname} from "../utils.js"
 import { middleware_createProd } from "../middlewares/createProduct.midleware.js";
 import { middleware_updProd } from "../middlewares/updateProd.midleware.js";
+import { socketServer } from "../server.js";
 
 const productManager = new ProductManager(`${__dirname}/db/products.json`);
 const router = Router();
 
 router.get('/', async (req, res) => {                 //Get ALL products
     try {
+        console.log("get all products");
         const limit = parseInt(req.query.limit)
         const products = await productManager.getProducts();
         if (limit) res.status(200).json(products.slice(0, limit))
@@ -44,7 +46,10 @@ router.post('/', middleware_createProd,async (req, res) => {               //Cre
         let category = req.body.category
         const product = await productManager.createProduct(title, description, code, price, stock, category, thumbnails )
         if (!product) res.status(404).json({ msg: "Product already exists" });
-        else res.status(200).json(product);
+        else {
+            res.status(200).json(product);
+            socketServer.emit("newProduct", product);
+        }
     } catch (error) {
         console.log(error);
         res.status(500).send(error.message);
