@@ -10,7 +10,7 @@ router.get('/realTimeProducts', (req, res) => {
 });
 
 const products = await productManager.getProducts();
-router.get('/home', (req, res) => {
+router.get('/', (req, res) => {
     res.render('home', { products })
 });
 

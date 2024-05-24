@@ -7,7 +7,7 @@ socket.on('newConnection', (products)=>{
     productsContainer.innerHTML = '';
     productsContainer.innerHTML = products.map(product => {
         return `<p>Id: ${product.id}</p>
-        <p>Título": ${product.title}</p>
+        <p>Título: ${product.title}</p>
         <p>Descripción: ${product.description}</p>
         <p>Código: ${product.code}</p>
         <p>Precio: ${product.price}</p>
@@ -22,7 +22,7 @@ socket.on('newConnection', (products)=>{
 socket.on('newProduct', (product)=>{
   productsContainer.innerHTML += 
        `<p>Id: ${product.id}</p>
-      <p>Título": ${product.title}</p>
+      <p>Título: ${product.title}</p>
       <p>Descripción: ${product.description}</p>
       <p>Código: ${product.code}</p>
       <p>Precio: ${product.price}</p>
