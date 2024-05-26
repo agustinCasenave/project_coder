@@ -61,7 +61,11 @@ router.put('/:pid', middleware_updProd, async (req, res) => {            //Updat
         const { pid } = req.params;
         const response = await productManager.updateProduct(pid, req.body);
         if (!response) res.status(404).json({ msg: "Product not found" });
-        else res.status(200).json({"msg": "Product updated successfully"});
+        else {
+            res.status(200).json({"msg": "Product updated successfully"})    
+            const products = await productManager.getProducts();                    
+            socketServer.emit("updProductList", products);
+        };
     } catch (error) {
         console.log(error);
         res.status(500).send(error.message);        
@@ -73,7 +77,11 @@ router.delete('/:pid', async (req, res) => {          //Delete Product.
         const { pid } = req.params;
         const response = await productManager.deleteProduct(pid);
         if (!response) res.status(404).json({ msg: "Product not found" });
-        else res.status(200).json({"msg": "Product deleted successfully"});
+        else {
+            res.status(200).json({"msg": "Product deleted successfully"})   
+            const products = await productManager.getProducts();         
+            socketServer.emit("updProductList", products);
+        };
     } catch (error) {
         console.log(error);
         res.status(500).send(error.message);        

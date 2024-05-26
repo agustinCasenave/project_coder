@@ -32,3 +32,19 @@ socket.on('newProduct', (product)=>{
       <p>Thumbnails: ${product.thumbnails}</p>
       <br>`
 });
+
+socket.on('updProductList', (products) => {
+    productsContainer.innerHTML = '';
+    productsContainer.innerHTML = products.map(product => {
+        return `<p>Id: ${product.id}</p>
+        <p>Título: ${product.title}</p>
+        <p>Descripción: ${product.description}</p>
+        <p>Código: ${product.code}</p>
+        <p>Precio: ${product.price}</p>
+        <p>Estado: ${product.status}</p>
+        <p>Stock: ${product.stock}</p>
+        <p>Categoría: ${product.category}</p>
+        <p>Thumbnails: ${product.thumbnails}</p>
+        <br>`
+    }).join('  ');
+})
