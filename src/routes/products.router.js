@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {                 //Get ALL products
         const limit = parseInt(req.query.limit)
         const products = await productManager.getProducts();
         if (limit) res.status(200).json(products.slice(0, limit))
-        else res.status(200).json(products);
+        else return res.status(200).json(products);
     } catch (error) {
         console.log(error);
         res.status(500).send(error.message);
@@ -27,8 +27,8 @@ router.get('/:pid', async (req, res) => {             //Get PId Product
         const { pid } = req.params
         console.log(pid);
         const product = await productManager.getProductById(pid)
-        if(!product) res.status(404).json({msg: "Product not found"})
-        else res.status(200).json(product)
+        if(!product) return res.status(404).json({msg: "Product not found"})
+        else return res.status(200).json(product)
     } catch (error) {
         console.log(error);
         res.status(500).send(error.message);
@@ -45,10 +45,10 @@ router.post('/', middleware_createProd,async (req, res) => {               //Cre
         let stock = req.body.stock
         let category = req.body.category
         const product = await productManager.createProduct(title, description, code, price, stock, category, thumbnails )
-        if (!product) res.status(404).json({ msg: "Product already exists" });
+        if (!product) return res.status(404).json({ msg: "Product already exists" });
         else {
-            res.status(200).json(product);
             socketServer.emit("newProduct", product);
+            return res.status(200).json(product);
         }
     } catch (error) {
         console.log(error);
@@ -60,11 +60,11 @@ router.put('/:pid', middleware_updProd, async (req, res) => {            //Updat
     try {
         const { pid } = req.params;
         const response = await productManager.updateProduct(pid, req.body);
-        if (!response) res.status(404).json({ msg: "Product not found" });
+        if (!response) return res.status(404).json({ msg: "Product not found" });
         else {
-            res.status(200).json({"msg": "Product updated successfully"})    
             const products = await productManager.getProducts();                    
             socketServer.emit("updProductList", products);
+            return res.status(200).json({"msg": "Product updated successfully"})    
         };
     } catch (error) {
         console.log(error);
@@ -76,11 +76,11 @@ router.delete('/:pid', async (req, res) => {          //Delete Product.
     try {
         const { pid } = req.params;
         const response = await productManager.deleteProduct(pid);
-        if (!response) res.status(404).json({ msg: "Product not found" });
+        if (!response) return res.status(404).json({ msg: "Product not found" });
         else {
-            res.status(200).json({"msg": "Product deleted successfully"})   
             const products = await productManager.getProducts();         
             socketServer.emit("updProductList", products);
+            return res.status(200).json({"msg": "Product deleted successfully"})   
         };
     } catch (error) {
         console.log(error);

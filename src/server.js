@@ -37,6 +37,42 @@ socketServer.on('connection', async(socket)=>{
     socket.on('disconnect', ()=>{
         console.log('🔴 User disconnect', socket.id);
     })
+
+    socket.on('newProductFront', async (productNew)=>{
+        try{
+            let title = productNew.title
+            let description = productNew.description
+            let price = productNew.price
+            let thumbnails = productNew.thumbnails
+            let code = productNew.code
+            let stock = productNew.stock
+            let category = productNew.category
+            console.log(productNew)
+            const product = await productManager.createProduct(title, description, code, price, stock, category, thumbnails )
+            if (product)
+                socketServer.emit("newProduct", product);
+        } catch (error) {
+            console.log(error);
+        }
+    })
 });
+
+socketServer.on('newProductFront', (productNew)=>{
+    try{
+        let title = productNew.title
+        let description = productNew.description
+        let price = productNew.price
+        let thumbnails = productNew.thumbnails
+        let code = productNew.code
+        let stock = productNew.stock
+        let category = productNew.category
+        console.log(productNew)
+        // const product = await productManager.createProduct(title, description, code, price, stock, category, thumbnails )
+        if (product)
+            socketServer.emit("newProduct", product);
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 export { socketServer };
