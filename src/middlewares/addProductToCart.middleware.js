@@ -1,6 +1,6 @@
-import { ProductManager } from "../manager/products.manager.js"
+import { ProductManager } from "../daos/filesystem/product.dao.js"
 import {__dirname} from "../utils.js"
-const productManager = new ProductManager(`${__dirname}/db/products.json`);
+const productManager = new ProductManager(`${__dirname}/daos/filesystem/products.json`);
 
 const prod = async (req,res,next) => {
     const product = await productManager.getProductById(req.params.pid)

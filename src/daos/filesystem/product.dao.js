@@ -13,7 +13,7 @@ export class ProductManager{
                return JSON.parse(productsFile)
             } else return [];   
         } catch (error) {
-            console.log(error);
+            throw new Error(error);
         }
     }
 
@@ -22,34 +22,22 @@ export class ProductManager{
     }
 
 
-    async createProduct(title, description, code, price, stock, category, thumbnails ){
+    async createProduct(obj){
         try {
             const productsFile = await this.getProducts();
-            if(!productsFile.some(product => product.code == code)){
+            if(!productsFile.some(product => product.code == obj.code)){
                 let thumbnails1 = []
-                if (thumbnails){ 
+                if (obj.thumbnails){ 
                     thumbnails1 =  thumbnails
                 }
-                let product = {
-                    "id": this.#getNextId(),
-                    "title": title,
-                    "description":  description,
-                    "code":  code,
-                    "price":  price,
-                    "status": true,
-                    "stock":  stock,
-                    "category": category,
-                    "thumbnails":  thumbnails1
-                }
-                productsFile.push(product);
+                productsFile.push(obj);
                 await fs.promises.writeFile(this.path, JSON.stringify(productsFile));
                 return product;
             } else{
                 return null;
             }
         } catch (error) {
-            console.log(error);
-            return null
+            throw new Error(error);
         }
     }
 
@@ -62,8 +50,7 @@ export class ProductManager{
                 return null
             }
         } catch (error) {
-            console.log(error);
-            return null
+            throw new Error(error);
         }
     }
 
@@ -79,13 +66,12 @@ export class ProductManager{
                     id: id,
                 };
                 await fs.promises.writeFile(this.path, JSON.stringify(productsFile));
-                return 1
+                return productsFile[index]
             } else {
                 return null
             }
         } catch (error) {
-            console.log(error);
-            return null
+            throw new Error(error);
         }
     }
 
@@ -94,15 +80,14 @@ export class ProductManager{
             const productsFile = await this.getProducts();
             if(productsFile.some(product => product.id == id)){
                 const index = productsFile.findIndex(product => product.id == id);
-                productsFile.splice(index, 1);
+                product = productsFile.splice(index, 1);
                 await fs.promises.writeFile(this.path, JSON.stringify(productsFile));
-                return 1
+                return product
             } else {
                 return null
             }
         } catch (error) {
-            console.log(error);
-            return null
+            throw new Error(error);
         }
     }
 }

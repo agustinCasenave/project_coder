@@ -1,6 +1,6 @@
 import fs from "fs";
 import { v4 as uuidv4 } from 'uuid';
-import {__dirname} from "../utils.js"
+import {__dirname} from "../../utils.js"
 
 export class CartManager {
     constructor(path){
@@ -14,7 +14,7 @@ export class CartManager {
                return JSON.parse(cartsFile)
             } else return [];   
         } catch (error) {
-            console.log(error);
+            throw new Error(error);
         }
     }
 
@@ -27,9 +27,8 @@ export class CartManager {
             } else {
                 return null
             }  
-        } catch (error) {
-            console.log(error);
-            return null
+        } catch (error) {            
+            throw new Error(error);
         }
     }
     #getNextId(){
@@ -46,9 +45,8 @@ export class CartManager {
             cartsFile.push(newCart);
             await fs.promises.writeFile(this.path, JSON.stringify(cartsFile));
             return newCart;
-        } catch (error) {
-            console.log(error);
-            return null
+        } catch (error) {            
+            throw new Error(error);
         }
     }
 
@@ -78,9 +76,8 @@ export class CartManager {
             } else {                                                            //If not cart
                 return null;
             }
-        } catch (error) {
-            console.log(error);
-            return null
+        } catch (error) {            
+            throw new Error(error);
         }
     }
 }

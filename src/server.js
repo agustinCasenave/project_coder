@@ -1,12 +1,13 @@
 import express from 'express';
-import productRouter from './routes/products.router.js'
-import cartsRouter from './routes/carts.router.js'
+import { initMongoDB } from './daos/mongodb/connection.js';
+import productRouter from './routes/product.router.js'
+import cartRouter from './routes/cart.router.js'
 import { __dirname } from './utils.js';
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
 import viewsRouter from './routes/views.router.js';
-import { ProductManager } from "./manager/products.manager.js"
-const productManager = new ProductManager(`${__dirname}/db/products.json`);
+import { ProductManager } from "./daos/filesystem/product.dao.js"
+const productManager = new ProductManager(`${__dirname}/daos/filesystem/products.json`);
 
 const app = express();
 
@@ -21,8 +22,11 @@ app.set('views', __dirname+'/views');
 app.use('/', viewsRouter);
 
 app.use('/api/products',productRouter)
-app.use('/api/carts',cartsRouter)
+app.use('/api/carts',cartRouter)
 
+const PERSISTENCE = 'mongo';
+
+if(PERSISTENCE === 'mongo') initMongoDB();
 const PORT = 8080;
 const httpServer = app.listen(PORT, ()=>console.log(`Server ok on port ${PORT}`))
 
