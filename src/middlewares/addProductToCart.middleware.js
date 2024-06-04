@@ -1,9 +1,11 @@
-import { ProductManager } from "../daos/filesystem/product.dao.js"
-import {__dirname} from "../utils.js"
-const productManager = new ProductManager(`${__dirname}/daos/filesystem/products.json`);
+// import { ProductManager } from "../daos/filesystem/product.dao.js"
+// import {__dirname} from "../utils.js"
+// const productManager = new ProductManager(`${__dirname}/daos/filesystem/products.json`);
+
+import * as serviceProd from "../services/product.services.js";
 
 const prod = async (req,res,next) => {
-    const product = await productManager.getProductById(req.params.pid)
+    const product = await serviceProd.getProductById(req.params.pid)
     console.log(product);
     if(product){
         console.log("next")

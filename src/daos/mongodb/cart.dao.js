@@ -19,7 +19,7 @@ export default class CartDaoMongo {
 
     async createCart(){
         try {
-            obj = {
+            const obj = {
                 products: []
             }
             return await CartModel.create(obj);
@@ -30,10 +30,21 @@ export default class CartDaoMongo {
 
     async addProductToCart(id, productId){
         try {
-            const obj = await CartModel.findById(id)
-            if (obj) {
-                obj.products.push(productId);
-                return await obj.save()
+            const cart = await CartModel.findById(id)
+            if (cart) {
+                if(!cart.products.some(product => product.id == productId)){    //If not product, add it
+                    cart.products.push({
+                        id: productId,
+                        quantity: 1
+                    });
+                } else {                                                        //If product, +1 quantity                
+                    const indexProd = cart.products.findIndex(product => product.id == productId);
+                    cart.products[indexProd] = {
+                        id: productId,
+                        quantity: cart.products[indexProd].quantity + 1
+                    };
+                }
+                return await cart.save()
             } else {
                 return null
             }
