@@ -50,7 +50,7 @@ export class CartManager {
         }
     }
 
-    async addProductToCart(id, productId){
+    async addProductToCart(id, productId){              //----Mover logica a cart.services, (capaz recibir una bandera que indique el caso?)
         try {
             const cartsFile = await this.getCarts()
             const cart = cartsFile.find(cart => cart.id == id);

@@ -3,7 +3,8 @@ import { socketServer } from "../server.js";
 
 export const getProducts = async (req, res, next) => {
     try {
-        const response = await service.getProducts();
+        const limit = parseInt(req.query.limit)
+        const response = await service.getProducts(limit)        
         res.json(response)
     } catch (error) {
         next(error);

@@ -28,28 +28,27 @@ export default class CartDaoMongo {
         }
     }
 
-    async addProductToCart(id, productId){
+    async addNewProductToCart(id, productId){
         try {
-            const cart = await CartModel.findById(id)
-            if (cart) {
-                if(!cart.products.some(product => product.id == productId)){    //If not product, add it
-                    cart.products.push({
-                        id: productId,
-                        quantity: 1
-                    });
-                } else {                                                        //If product, +1 quantity                
-                    const indexProd = cart.products.findIndex(product => product.id == productId);
-                    cart.products[indexProd] = {
-                        id: productId,
-                        quantity: cart.products[indexProd].quantity + 1
-                    };
-                }
-                return await cart.save()
-            } else {
-                return null
-            }
+            return await CartModel.findByIdAndUpdate(id,{
+                        $push: {
+                            products: {
+                                product: productId
+                            }
+                        }
+                    }, {
+                        new: true,
+            }).populate('products.product');
         } catch (error) {
             throw new Error(error);
         }
+    }
+
+    async addExistingProductToCart (id, productId){
+        return await CartModel.findOneAndUpdate(
+            { _id: id, 'products.product': productId },
+            { $inc: { 'products.$.quantity': 1 } },
+            { new: true }
+        ).populate('products.product');
     }
 }

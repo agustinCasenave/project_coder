@@ -31,7 +31,16 @@ export const createCart = async () => {
 
 export const addProductToCart = async (id, productId) => {
     try {
-        return await cartDao.addProductToCart(id, productId)
+        const cart = await cartDao.getCartById(id)
+        console.log(cart);
+        if (cart) {
+            const existeProd = cart.products.find(p => p.product._id.toString() === productId.toString());
+            console.log(existeProd);
+            if (!existeProd) return await cartDao.addNewProductToCart(id, productId)
+            else return await cartDao.addExistingProductToCart(id, productId)
+        } else {
+            return null
+        }
     } catch (error) {
         throw new Error(error);
     }
