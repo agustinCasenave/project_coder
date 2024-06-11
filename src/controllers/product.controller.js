@@ -3,7 +3,10 @@ import * as service from "../services/product.services.js";
 export const getProducts = async (req, res, next) => {
     try {
         const limit = parseInt(req.query.limit)
-        const response = await service.getProducts(limit)        
+        const page = parseInt(req.query.page)
+        const query = req.query.query
+        const sort = req.query.sort
+        const response = await service.getProducts(limit, page, query, sort)        
         res.json(response)
     } catch (error) {
         next(error);

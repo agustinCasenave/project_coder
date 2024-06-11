@@ -1,9 +1,16 @@
 import { ProductModel } from "./models/product.model.js";
 
 export default class ProductDaoMongo{
-    async getProducts(limit){
+    async getProducts(limit = 10, page = 1, query={}, sort={}){
         try {
-            return await ProductModel.find({}).limit(limit);
+            /*Agregar sort y query*/
+            console.log(query, limit, page, sort);
+            return await ProductModel.paginate(query,{
+                limit,
+                page,
+                sort
+            });
+        
         } catch (error) {
             throw new Error(error);
         }
