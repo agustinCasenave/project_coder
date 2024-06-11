@@ -1,10 +1,6 @@
 import ProductDaoMongo from '../daos/mongodb/product.dao.js';
 const prodDao = new ProductDaoMongo();
 
-// import { __dirname } from '../utils.js';
-// import ProductDaoFS from '../daos/filesystem/product.dao.js';
-// const prodDao = new ProductDaoFS(`${__dirname}/daos/filesystem/products.json`);
-
 export const getProducts = async (limit) => {
     try {
         return await prodDao.getProducts(limit);

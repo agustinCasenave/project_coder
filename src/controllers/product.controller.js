@@ -1,5 +1,4 @@
 import * as service from "../services/product.services.js";
-import { socketServer } from "../server.js";
 
 export const getProducts = async (req, res, next) => {
     try {
@@ -16,7 +15,6 @@ export const createProduct = async (req, res, next) => {
         const product = await service.createProduct(req.body);
         if (!product) return res.status(404).json({ msg: "Error create product" });
         else {
-            socketServer.emit("newProduct", product);
             return res.status(200).json(product);
         }
     } catch (error) {
@@ -41,8 +39,7 @@ export const updateProduct = async (req, res, next) => {
         const response = await service.updateProduct(pid, req.body);
         if (!response) return res.status(404).json({ msg: "Product not found" });
         else {
-            const products = await service.getProducts();                    
-            socketServer.emit("updProductList", products);
+            const products = await service.getProducts();          
             return res.status(200).json(response)    
         };        
     } catch (error) {
@@ -57,7 +54,6 @@ export const deleteProduct  = async (req, res, next) => {
         if (!response) return res.status(404).json({ msg: "Product not found" });
         else {
             const products = await service.getProducts();         
-            socketServer.emit("updProductList", products);
             return res.status(200).json(response)   
         };;
     } catch (error) {

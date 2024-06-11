@@ -1,12 +1,9 @@
-import { Router } from "express";
-import { ProductManager } from "../daos/filesystem/product.dao.js"
+import { Router } from "express"
 import {__dirname} from "../utils.js"
 import { middleware_createProd } from "../middlewares/createProduct.midleware.js";
 import { middleware_updProd } from "../middlewares/updateProd.midleware.js";
-import { socketServer } from "../server.js";
 import * as controller from "../controllers/product.controller.js";
 
-const productManager = new ProductManager(`${__dirname}/daos/filesystem/products.json`);
 const router = Router();
 
 router.get('/', controller.getProducts)               //Get ALL products
@@ -20,18 +17,3 @@ router.put('/:pid', middleware_updProd, controller.updateProduct)            //U
 router.delete('/:pid', controller.deleteProduct)          //Delete Product. 
 
 export default router;
-
-
-        /*Product data:
-            {   
-                id:
-                title: 
-                description:
-                code: 
-                price:
-                status: 
-                stock:
-                category:
-                thumbnail: []   //Array of thumbnail paths
-            }    
-        */

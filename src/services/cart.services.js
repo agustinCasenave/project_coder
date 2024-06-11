@@ -1,10 +1,6 @@
 import CartDaoMongo from '../daos/mongodb/cart.dao.js';
 const cartDao = new CartDaoMongo();
 
-// import { __dirname } from '../utils.js';
-// import CartDaoFS from '../daos/filesystem/cart.dao.js';
-// const cartDao = new cartDaoFS(`${__dirname}/daos/filesystem/cart.json`);
-
 export const getCarts = async () =>{
     try {
         return await cartDao.getCarts()

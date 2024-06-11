@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose"
+import mongoosPaginate from "mongoose-paginate-v2"
 
 const cartSchema = new Schema({
     products: [{
