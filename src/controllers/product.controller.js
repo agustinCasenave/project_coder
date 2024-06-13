@@ -4,9 +4,9 @@ export const getProducts = async (req, res, next) => {
     try {
         const limit = parseInt(req.query.limit)
         const page = parseInt(req.query.page)
-        const query = req.query.query
+        const category = req.query.category
         const sort = req.query.sort
-        const response = await service.getProducts(limit, page, query, sort)        
+        const response = await service.getProducts(limit, page, category, sort)        
         res.json(response)
     } catch (error) {
         next(error);

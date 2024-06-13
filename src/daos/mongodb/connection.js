@@ -1,12 +1,16 @@
-import { connect } from 'mongoose';
+import mongoose from "mongoose";
+import 'dotenv/config'
 
-const connectionString = 'mongodb+srv://admin:K7hODN3tyVEL4U1n@cluster0.zmavr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/coder69900'
+console.log(MONGO_URL)
 
 export const initMongoDB = async () => {
-    try {
-        await connect(connectionString);
-        console.log('Conectado a MongoDB');
-    } catch (error) {
-        console.log(`ERROR => ${error}`);
-    }
-}
+  try {
+    mongoose.set('strictQuery', false)
+    await mongoose.connect(MONGO_URL);
+    console.log("Conectado a la base de datos de MONGODB");
+  } catch (error) {
+    console.log(error);
+  }
+};

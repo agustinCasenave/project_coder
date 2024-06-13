@@ -1,5 +1,6 @@
 import express from 'express';
 import { initMongoDB } from './daos/mongodb/connection.js';
+import { errorHandler } from './middlewares/errorHandler.js';
 import productRouter from './routes/product.router.js'
 import cartRouter from './routes/cart.router.js'
 
@@ -10,6 +11,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/products',productRouter)
 app.use('/api/carts',cartRouter)
+
+app.use(errorHandler);
 
 initMongoDB();
 

@@ -1,27 +1,26 @@
 import ProductDaoMongo from '../daos/mongodb/product.dao.js';
 const prodDao = new ProductDaoMongo();
 
-export const getProducts = async (limit, page, query, sort) => {
+export const getProducts = async (limit, page, category, sort) => {
     try {
         let sortFilter = {};
         if (sort === `asc`) sortFilter= {price: `asc`};
         else if (sort === `desc`) sortFilter= {price: `desc`};
 
         let queryFilter = {}
-        if (query) queryFilter = {category: `${query}` }        //Categoria o disponibilidad??
+        if (category) queryFilter = {category: `${category}` }        
         const products = await prodDao.getProducts(limit, page, queryFilter, sortFilter);
         const status = 'success'
 
         const baseUrl = 'http://localhost:8080/api/products';
         
         const createLink = (page) => {
-            const params = new URLSearchParams({ 
-                limit,
-                page,
-                sort,
-                query 
-            });
-            return `${baseUrl}?${params.toString()}`;
+            let url = `${baseUrl}?page=${page}&`
+            if (limit) url += `limit=${limit}&`
+            if (sort) url += `sort=${sort}&`
+            if (category) url += `category=${category}&`
+
+            return url.slice(0, -1);        //borra el ultimo caracter
         };
         
 

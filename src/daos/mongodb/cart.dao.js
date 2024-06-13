@@ -9,9 +9,18 @@ export default class CartDaoMongo {
         }
     }
 
+    async update(cartId, cart){
+        try {
+            console.log(cart);
+            return await CartModel.findByIdAndUpdate(cartId, cart, {new: true})
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
     async getCartById(id){
         try {
-            return await CartModel.findById(id);
+            return await CartModel.findById(id)
         } catch (error) {
             throw new Error(error);
         }
@@ -38,7 +47,7 @@ export default class CartDaoMongo {
                         }
                     }, {
                         new: true,
-            }).populate('products.product');
+            })
         } catch (error) {
             throw new Error(error);
         }
@@ -49,6 +58,45 @@ export default class CartDaoMongo {
             { _id: id, 'products.product': productId },
             { $inc: { 'products.$.quantity': 1 } },
             { new: true }
-        ).populate('products.product');
+        )
+    }
+
+    async deleteProductFromCart(id, productId){
+        try {
+            return await CartModel.findByIdAndUpdate(id,{
+                $pull: {
+                    products: {
+                        product: productId
+                    }
+                }
+            }, {
+                new: true,
+            })
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    async updateQuantity(id, productId, quantity) {
+        try {
+            return await CartModel.findOneAndUpdate(
+                { _id: id, 'products.product': productId },
+                { $set: { 'products.$.quantity': quantity } },
+                { new: true }
+            )
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+    async deleteCart(id){
+        try{
+            return await CartModel.findOneAndUpdate(
+                { _id: id},
+                { $set: { 'products': [] } },
+                { new: true });
+        } catch (error) {
+            throw new Error(error);
+        }
     }
 }
