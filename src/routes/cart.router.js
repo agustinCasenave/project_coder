@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { middleware_existCart } from "../middlewares/existeCart.middleware.js";
 import { middleware_existProd } from "../middlewares/existProd.middleware.js";
-import { middleware_updateQuantity } from "../middlewares/updateQuantity.middleware.js";
+import { middleware_existProdInCart } from "../middlewares/existProdInCart.middleware.js";
 import { middleware_existProdArray } from "../middlewares/existProdArray.middleware.js"
 
 import * as controller from "../controllers/cart.controller.js";
@@ -14,11 +14,11 @@ router.get('/:cid', middleware_existCart, controller.getCartById)               
 
 router.post('/:cid/products/:pid', middleware_existProd, middleware_existCart, controller.addProductToCart)  //Add Product PId to cart CId. 
 
-router.delete('/:cid/products/:pid', middleware_existCart, controller.deleteProductFromCart) //Delete Product
+router.delete('/:cid/products/:pid', middleware_existCart, middleware_existProd, middleware_existProdInCart, controller.deleteProductFromCart) //Delete Product
 
 router.put('/:cid', middleware_existProdArray, controller.updateCart)    // actualizar el carrito con un arreglo de productos con el formato especificado arriba.
 
-router.put('/:cid/products/:pid', middleware_existProd, middleware_existCart, middleware_updateQuantity, controller.updateQuantity) //update quantity from body
+router.put('/:cid/products/:pid', middleware_existProd, middleware_existCart, middleware_existProdInCart, controller.updateQuantity) //update quantity from body
 
 router.delete('/:cid', middleware_existCart, controller.deleteCart)
 

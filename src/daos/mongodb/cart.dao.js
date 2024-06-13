@@ -20,7 +20,8 @@ export default class CartDaoMongo {
 
     async getCartById(id){
         try {
-            return await CartModel.findById(id)
+            const cart = await CartModel.findById(id).populate("products.product");
+            return cart
         } catch (error) {
             throw new Error(error);
         }
