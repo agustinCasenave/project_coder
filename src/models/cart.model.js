@@ -10,15 +10,11 @@ const cartSchema = new Schema({
           },
           product: {
             type: Schema.Types.ObjectId,
-            ref: "products" // Referencia al modelo de productos
+            ref: "product" // Referencia al modelo de productos
           }
         }
       ]
     });
-
-cartSchema.pre('findById', function(){
-    this.populate('products.product')
-})
 
 export const CartModel = model(
     "cart",

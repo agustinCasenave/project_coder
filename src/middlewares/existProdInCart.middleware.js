@@ -16,4 +16,4 @@ const cart = async (req,res,next) => {
    }
 }
 
-export const middleware_updateQuantity = cart;
+export const middleware_existProdInCart = cart;

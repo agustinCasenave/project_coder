@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 import 'dotenv/config'
 
 
-const MONGO_URL = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/coder69900'
-console.log(MONGO_URL)
+const MONGO_URL = process.env.MONGO_URL
 
+console.log(MONGO_URL);
 export const initMongoDB = async () => {
   try {
     mongoose.set('strictQuery', false)
