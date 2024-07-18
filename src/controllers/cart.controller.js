@@ -1,4 +1,4 @@
-import * as service from "../services/cart.services.js";
+import * as service from "../services/cart.service.js";
 
 export const getCarts = async (req,res) =>{
     try {
@@ -17,8 +17,7 @@ export const getCartById = async (req,res) => {
             res.status(200).json(cart)
         }
     } catch (error) {
-        console.log(error);
-        res.status(500).send(error.message);   
+        throw new Error(error);
     }
 }
 
@@ -28,7 +27,7 @@ export const createCart = async (req,res) => {
         if(!cart) res.status(404).json({"msg": "Cart not created"});
         else res.status(200).json(cart);
     } catch (error) {
-        res.status(500).send(error.message);           
+        throw new Error(error);          
     }
 }
 
@@ -40,7 +39,7 @@ export const addProductToCart = async (req,res) => {
         if (!cart) res.status(404).json({"msg": "Cart not found"});
         else res.status(200).json(cart);
     } catch (error) {
-        res.status(500).send(error.message);   
+        throw new Error(error);  
     }
 }
 
@@ -52,7 +51,7 @@ export const deleteProductFromCart = async (req,res) => {
         if (!cart) res.status(404).json({"msg": "Cart not found"});
         else res.status(200).json(cart);
     } catch (error) {
-        res.status(500).send(error.message);   
+        throw new Error(error); 
     }
 }
 
@@ -65,7 +64,7 @@ export const updateQuantity = async (req, res) => {
         if (!cart) res.status(404).json({"msg": "Cart not found"});
         else res.status(200).json(cart);
     } catch (error) {
-        res.status(500).send(error.message);   
+        throw new Error(error); 
     }
 }
 
@@ -76,7 +75,7 @@ export const deleteCart = async (req,res) => {
         if (!cart) res.status(404).json({"msg": "Cart not found"});
         else res.status(200).json(cart);
     } catch (error) {
-        res.status(500).send(error.message);   
+        throw new Error(error);
     }
 }
 
@@ -88,6 +87,6 @@ export const updateCart = async (req, res) =>{
         if (!cart) res.status(404).json({"msg": "Cart not found"});
         else res.status(200).json(cart);
     } catch (error) {
-        res.status(500).send(error.message);   
+        throw new Error(error); 
     }
 }

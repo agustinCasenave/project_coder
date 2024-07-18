@@ -1,5 +1,5 @@
 import { Router } from "express"
-import {__dirname} from "../utils.js"
+import {__dirname} from "../utils/__dirname.js"
 import { middleware_createProd } from "../middlewares/createProduct.midleware.js";
 import { middleware_updProd } from "../middlewares/updateProd.midleware.js";
 import { middleware_existProd } from "../middlewares/existProd.middleware.js";

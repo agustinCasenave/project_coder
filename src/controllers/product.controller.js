@@ -1,4 +1,4 @@
-import * as service from "../services/product.services.js";
+import * as service from "../services/product.service.js";
 
 export const getProducts = async (req, res, next) => {
     try {
@@ -9,7 +9,8 @@ export const getProducts = async (req, res, next) => {
         const response = await service.getProducts(limit, page, category, sort)        
         res.json(response)
     } catch (error) {
-        next(error);
+        
+        throw new Error(error);
     }
 }
 
@@ -21,7 +22,8 @@ export const createProduct = async (req, res, next) => {
             return res.status(200).json(product);
         }
     } catch (error) {
-        next(error);
+        
+        throw new Error(error);
     }
 }
 
@@ -32,7 +34,8 @@ export const getProductById = async (req, res, next) => {
         if(!product) return res.status(404).json({msg: "Product not found"})
         else return res.status(200).json(product)
     } catch (error) {
-        next(error);
+        
+        throw new Error(error);
     }
 }
 
@@ -46,7 +49,8 @@ export const updateProduct = async (req, res, next) => {
             return res.status(200).json(response)    
         };        
     } catch (error) {
-        next(error);
+        
+        throw new Error(error);
     }
 }
 
@@ -60,6 +64,7 @@ export const deleteProduct  = async (req, res, next) => {
             return res.status(200).json(response)   
         };;
     } catch (error) {
-        next(error);
+        
+        throw new Error(error);
     }
 }
