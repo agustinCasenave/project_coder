@@ -1,5 +1,5 @@
 import express from 'express';
-import { initMongoDB } from './db/mongodb/connection.js';
+import { initMongoDB } from './daos/mongo/connection.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import productRouter from './routes/product.routes.js'
 import cartRouter from './routes/cart.routes.js'
