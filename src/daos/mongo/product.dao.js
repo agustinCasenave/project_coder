@@ -1,6 +1,6 @@
 import { ProductModel } from "./models/product.model.js";
 
-export default class ProductDaoMongo{
+class ProductDaoMongo{
     async getProducts(limit = 10, page = 1, query={}, sort={}){
         try {
             /*Agregar sort y query*/
@@ -52,3 +52,5 @@ export default class ProductDaoMongo{
         }
     }
 }
+
+export const productDao = new ProductDaoMongo();

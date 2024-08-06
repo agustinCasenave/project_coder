@@ -1,16 +1,14 @@
 import mongoose from "mongoose";
-import 'dotenv/config'
+import { config } from "../../config/config.js";
 
+const MONGO_URI = config.MONGO_URI;
 
-const MONGO_URL = process.env.MONGO_URL
-
-console.log(MONGO_URL);
 export const initMongoDB = async () => {
-  try {
-    mongoose.set('strictQuery', false)
-    await mongoose.connect(MONGO_URL);
-    console.log("Conectado a la base de datos de MONGODB");
-  } catch (error) {
-    console.log(error);
-  }
+	try {
+		mongoose.set("strictQuery", false);
+		await mongoose.connect(MONGO_URI);
+		console.log("Conectado a la base de datos de MONGODB");
+	} catch (error) {
+		console.log(error);
+	}
 };

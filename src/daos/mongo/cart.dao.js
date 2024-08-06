@@ -1,6 +1,6 @@
 import { CartModel } from "./models/cart.model.js";
 
-export default class CartDaoMongo {
+class CartDaoMongo {
     async getCarts(){
         try {
             return await CartModel.find({})
@@ -101,3 +101,5 @@ export default class CartDaoMongo {
         }
     }
 }
+
+export const cartDao = new CartDaoMongo();

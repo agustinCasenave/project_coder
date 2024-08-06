@@ -1,25 +1,24 @@
 import jwt from "jsonwebtoken";
-import 'dotenv/config'
+import { config } from "../config/config.js";
 
-const PRIVATE_KEY = process.env.PRIVATE_KEY || 's3cr3t';
+const JWT_SECRET = config.JWT_SECRET;
 
 export const generateToken = (user) => {
-    const payload = {
-        user,
-        sub: user.id
-    };
-    return jwt.sign(payload, PRIVATE_KEY, { expiresIn: "10m" });
+	const payload = {
+		user,
+		sub: user.id,
+	};
+	return jwt.sign(payload, JWT_SECRET, { expiresIn: "10m" });
 };
-
 
 //Función para verificar token
 export function verifyToken(token) {
-    try {
-        const decoded = jwt.verify(token, PRIVATE_KEY);
-  
-        return decoded;
-    } catch (error) {
-        console.log(error);
-        throw new Error("Token no valido");
-    }
-  }
+	try {
+		const decoded = jwt.verify(token, JWT_SECRET);
+
+		return decoded;
+	} catch (error) {
+		console.log(error);
+		throw new Error("Token no valido");
+	}
+}

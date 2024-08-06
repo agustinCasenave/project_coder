@@ -1,6 +1,6 @@
 import { UserModel } from "./models/user.model.js";
 
-export default class UserDaoMongo {
+class UserDaoMongo {
     async registerUser(user){
         try {
             return await UserModel.create(user);
@@ -44,3 +44,5 @@ export default class UserDaoMongo {
     }
 
 }
+
+export const userDao = new UserDaoMongo();
