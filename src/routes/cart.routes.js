@@ -44,6 +44,12 @@ router.put(
 	cartController.updateQuantity
 ); //update quantity from body
 
+router.post(
+	"/:cid/purchase",
+	middleware_existCart,
+	cartController.purchaseCart
+);
+
 router.delete("/:cid", middleware_existCart, cartController.deleteCart);
 
 export default router;

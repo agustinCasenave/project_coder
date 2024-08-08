@@ -95,6 +95,19 @@ class CartController {
 			throw new Error(error);
 		}
 	};
+
+	purchaseCart = async (req, res) => {
+		try {
+			const { cid } = req.params;
+			const user = req.user;
+			const ticket = await cartService.purchaseCart(cid, user);
+			if (!ticket)
+				res.status(500).json({ msg: ticket.msg });
+			else res.status(201).json(ticket);
+		} catch (error) {
+			throw new Error(error);
+		}
+	};
 }
 
 export const cartController = new CartController();
