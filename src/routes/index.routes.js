@@ -3,6 +3,7 @@ import sessionRoutes from "./session.routes.js";
 import cartRoutes from "./cart.routes.js";
 import productRoutes from "./product.routes.js";
 import userRoutes from "./user.routes.js";
+import mocksRoutes from "./mocks.routes.js";
 import { Router } from "express";
 import passport from "passport";
 
@@ -16,5 +17,6 @@ router.use(
 	cartRoutes
 );
 router.use("/products", productRoutes);
+router.use("/mocks", mocksRoutes);
 
 export default router;
