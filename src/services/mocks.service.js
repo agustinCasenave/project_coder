@@ -1,16 +1,18 @@
 import { userDao } from "../daos/mongo/user.dao.js";
 import { cartDao } from "../daos/mongo/cart.dao.js";
 import { generateUser } from "../utils/mocks.utils.js";
+import { generatePets } from "../utils/mocks.utils.js";
 
-export const createUsersMock = async (cant = 20) => {
+export const createUsersMock = async (cantUsers = 20, cantPets = 3) => {
 	try {
 		const usersArray = [];
-		for (let i = 0; i <= cant; i++) {
+		for (let i = 0; i <= cantUsers; i++) {
 			let cartId = await cartDao.createCart();
 			const user = await generateUser(cartId);
+			const pets = generatePets(cantPets);
+			user.pets = pets;
 			usersArray.push(user);
 		}
-		console.log(usersArray);
 
 		return await userDao.registerUser(usersArray);
 	} catch (error) {

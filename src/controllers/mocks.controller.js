@@ -2,9 +2,9 @@ import * as mockService from "../services/mocks.service.js";
 
 export const createUser = async (req, res, next) => {
 	try {
-		const { users } = req.query;
+		const { users, pets } = req.query;
 
-		const response = await mockService.createUsersMock(users);
+		const response = await mockService.createUsersMock(users, pets);
 		res.status(200).json(response);
 	} catch (error) {
 		next(error);

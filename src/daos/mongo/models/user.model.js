@@ -10,6 +10,7 @@ const userSchema = new Schema({
 	pets: [
 		{
 			name: { type: String, require: true },
+			type: { type: String, require: true },
 		},
 	],
 	cart: {

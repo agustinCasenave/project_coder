@@ -15,3 +15,14 @@ export const generateUser = async (cartId) => {
 		email: faker.internet.email(),
 	};
 };
+
+export const generatePets = (cant) => {
+	const pets = [];
+	for (let i = 0; i < cant; i++) {
+		pets.push({
+			name: faker.person.firstName(),
+			type: faker.animal.type(),
+		});
+	}
+	return pets;
+};
