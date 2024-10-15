@@ -1,6 +1,6 @@
 import passport from "passport";
 import jwt from "passport-jwt";
-import { config } from "../config/config.js";
+import { config } from "./config.js";
 import { userService } from "../services/user.service.js";
 import { createHash, comparePassword } from "../utils/hash.js";
 import local from "passport-local";

@@ -33,7 +33,7 @@ class UserDaoMongo {
 		}
 	}
 
-	async deleteUser() {
+	async deleteUser(email) {
 		try {
 			return await UserModel.findOneAndDelete({ email });
 		} catch (error) {
