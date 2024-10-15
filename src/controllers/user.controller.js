@@ -59,6 +59,8 @@ class UserController {
 	updateUser = async (req, res, next) => {
 		try {
 			const { email } = req.params;
+			console.log(email);
+			
 			const user = await userService.updateUser(email, req.body);
 			const userPlain = user.toObject();
 			const userPublic = createUserDTO(userPlain);

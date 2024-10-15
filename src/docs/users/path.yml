@@ -1,0 +1,78 @@
+paths:
+    /user/register:
+      post:
+        tags:
+          - Users
+        summary: Registro de usuario
+        requestBody:
+          content:
+            application/json:
+                schema:
+                    $ref: "#/components/parameters/schemas/UserRegister"
+                required: true
+        responses:
+            200:
+              description: Register success
+              content:
+                application/json:
+                  schema:
+                    $ref: "#/components/parameters/schemas/User"
+    /user/{email}:
+      get:
+        tags:
+            - Users
+        summary: Obtener usuario
+        parameters:
+            - name: email
+              in: path
+              type: string
+              required: true
+              description: Email del usuario
+        responses:
+          200:
+            description: Get success
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/parameters/schemas/User"
+      put:
+        tags:
+            - Users
+        summary: Actualizar usuario
+        parameters:
+          - name: email
+            in: path
+            type: string
+            required: true
+            description: Email del usuario
+        requestBody:
+          content:
+            application/json:
+                schema:
+                    $ref: "#/components/parameters/schemas/UserUpdate"
+                required: true
+        responses:
+          200:
+            description: Update success
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/parameters/schemas/User"
+      delete:
+        tags:
+            - Users
+        summary: Eliminar usuario
+        parameters:
+            - name: email
+              in: path
+              type: string
+              required: true
+              description: Email del usuario
+        responses:
+          200:
+            description: Delete success
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/parameters/schemas/User"
+      

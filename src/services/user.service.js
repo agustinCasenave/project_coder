@@ -35,9 +35,9 @@ class UserService {
         }
     }
 
-    updateUser = async (id, user) => {
+    updateUser = async (email, user) => {
         try {
-            return await userDao.updateUser(id, user);
+            return await userDao.updateUser(email, user);
         } catch (error) {
             throw new Error(error);
         }

@@ -6,9 +6,14 @@ import userRoutes from "./user.routes.js";
 import mocksRoutes from "./mocks.routes.js";
 import { Router } from "express";
 import passport from "passport";
+import swaggerUI from "swagger-ui-express";
+import { info } from "../docs/info.js";
+import swaggerJSDoc from "swagger-jsdoc";
 
 const router = Router();
 
+const specs = swaggerJSDoc(info);
+router.use("/doc", swaggerUI.serve, swaggerUI.setup(specs));
 router.use("/session", sessionRoutes);
 router.use("/user", userRoutes);
 router.use(

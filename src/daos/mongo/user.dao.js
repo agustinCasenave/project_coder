@@ -41,9 +41,9 @@ class UserDaoMongo {
 		}
 	}
 
-	async updateUser(id, user) {
+	async updateUser(email, user) {
 		try {
-			return await UserModel.findByIdAndUpdate(id, user, {
+			return await UserModel.findOneAndUpdate({ email }, user, {
 				new: true,
 			});
 		} catch (error) {
